@@ -10,12 +10,8 @@ struct HomeView: View {
 
     var body: some View {
         VStack(spacing: 40) {
-            Text("typodot")
+            Text("typo.")
                 .font(.system(size: 48, weight: .bold, design: .monospaced))
-
-            Text("Typing Practice")
-                .font(.title2)
-                .foregroundColor(.secondary)
 
             Button(action: {
                 appState.startPractice(with: PracticeTexts.random())
