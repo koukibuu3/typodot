@@ -5,6 +5,7 @@
 
 import Foundation
 import AppKit
+import Combine
 
 enum Screen {
     case home
