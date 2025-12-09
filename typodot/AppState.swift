@@ -23,6 +23,9 @@ final class AppState: ObservableObject {
     @Published var elapsedTime: TimeInterval = 0
     @Published var startTime: Date?
 
+    // Error feedback state
+    @Published var showErrorFeedback: Bool = false
+
     // Timer
     private var timer: DispatchSourceTimer?
 
@@ -91,6 +94,15 @@ final class AppState: ObservableObject {
         }
 
         let wasCorrect = engine?.processInput(character) ?? false
+
+        if !wasCorrect {
+            // Show brief error feedback
+            showErrorFeedback = true
+            Task { @MainActor in
+                try? await Task.sleep(nanoseconds: 150_000_000) // 150ms
+                self.showErrorFeedback = false
+            }
+        }
 
         // Force UI update by triggering objectWillChange
         objectWillChange.send()

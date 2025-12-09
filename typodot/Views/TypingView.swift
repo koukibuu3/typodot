@@ -23,7 +23,8 @@ struct TypingView: View {
             // Target text display
             TypingTextView(
                 targetText: appState.targetText,
-                currentIndex: appState.currentIndex
+                currentIndex: appState.currentIndex,
+                showError: appState.showErrorFeedback
             )
             .frame(maxWidth: 800)
             .padding()
@@ -56,6 +57,7 @@ struct StatItem: View {
 struct TypingTextView: View {
     let targetText: String
     let currentIndex: Int
+    let showError: Bool
 
     var body: some View {
         Text(attributedText)
@@ -72,11 +74,15 @@ struct TypingTextView: View {
             var attrChar = AttributedString(String(char))
 
             if index < currentIndex {
-                // Already typed
+                // Already typed correctly
                 attrChar.foregroundColor = .green
             } else if index == currentIndex {
-                // Current character
-                attrChar.backgroundColor = Color.accentColor.opacity(0.3)
+                // Current character - show red background on error
+                if showError {
+                    attrChar.backgroundColor = Color.red.opacity(0.4)
+                } else {
+                    attrChar.backgroundColor = Color.accentColor.opacity(0.3)
+                }
                 attrChar.foregroundColor = .primary
             } else {
                 // Not yet typed
