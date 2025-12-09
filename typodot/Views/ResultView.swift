@@ -23,19 +23,39 @@ struct ResultView: View {
             .background(Color(nsColor: .controlBackgroundColor))
             .cornerRadius(12)
 
-            Button(action: {
-                appState.returnToHome()
-            }) {
-                Text("Back to Home")
-                    .font(.title3)
-                    .fontWeight(.medium)
-                    .padding(.horizontal, 40)
-                    .padding(.vertical, 16)
-                    .background(Color.accentColor)
-                    .foregroundColor(.white)
-                    .cornerRadius(8)
+            HStack(spacing: 16) {
+                Button(action: {
+                    appState.startPractice(with: PracticeTexts.random())
+                }) {
+                    Text("Try Again")
+                        .font(.title3)
+                        .fontWeight(.medium)
+                        .padding(.horizontal, 32)
+                        .padding(.vertical, 16)
+                        .background(Color.accentColor)
+                        .foregroundColor(.white)
+                        .cornerRadius(8)
+                }
+                .buttonStyle(.plain)
+
+                Button(action: {
+                    appState.returnToHome()
+                }) {
+                    Text("Home")
+                        .font(.title3)
+                        .fontWeight(.medium)
+                        .padding(.horizontal, 32)
+                        .padding(.vertical, 16)
+                        .background(Color(nsColor: .controlBackgroundColor))
+                        .foregroundColor(.primary)
+                        .cornerRadius(8)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 8)
+                                .stroke(Color.secondary.opacity(0.3), lineWidth: 1)
+                        )
+                }
+                .buttonStyle(.plain)
             }
-            .buttonStyle(.plain)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
     }

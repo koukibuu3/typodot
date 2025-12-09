@@ -8,12 +8,6 @@ import SwiftUI
 struct HomeView: View {
     @EnvironmentObject var appState: AppState
 
-    private let sampleTexts = [
-        "The quick brown fox jumps over the lazy dog.",
-        "Pack my box with five dozen liquor jugs.",
-        "How vexingly quick daft zebras jump!",
-    ]
-
     var body: some View {
         VStack(spacing: 40) {
             Text("typodot")
@@ -24,8 +18,7 @@ struct HomeView: View {
                 .foregroundColor(.secondary)
 
             Button(action: {
-                let text = sampleTexts.randomElement() ?? sampleTexts[0]
-                appState.startPractice(with: text)
+                appState.startPractice(with: PracticeTexts.random())
             }) {
                 Text("Start Practice")
                     .font(.title3)
