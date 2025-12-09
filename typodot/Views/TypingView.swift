@@ -14,7 +14,7 @@ struct TypingView: View {
             HStack(spacing: 40) {
                 StatItem(label: "WPM", value: "\(appState.wpm)")
                 StatItem(label: "Accuracy", value: String(format: "%.1f%%", appState.accuracy))
-                StatItem(label: "Time", value: formatTime(appState.elapsedTime))
+                StatItem(label: "Time", value: appState.formattedTime)
             }
             .padding()
             .background(Color(nsColor: .controlBackgroundColor))
@@ -23,8 +23,7 @@ struct TypingView: View {
             // Target text display
             TypingTextView(
                 targetText: appState.targetText,
-                currentIndex: appState.currentIndex,
-                inputHistory: appState.inputHistory
+                currentIndex: appState.currentIndex
             )
             .frame(maxWidth: 800)
             .padding()
@@ -36,13 +35,6 @@ struct TypingView: View {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .padding()
-    }
-
-    private func formatTime(_ time: TimeInterval) -> String {
-        let minutes = Int(time) / 60
-        let seconds = Int(time) % 60
-        let tenths = Int((time.truncatingRemainder(dividingBy: 1)) * 10)
-        return String(format: "%d:%02d.%d", minutes, seconds, tenths)
     }
 }
 
@@ -64,7 +56,6 @@ struct StatItem: View {
 struct TypingTextView: View {
     let targetText: String
     let currentIndex: Int
-    let inputHistory: [Bool]
 
     var body: some View {
         Text(attributedText)

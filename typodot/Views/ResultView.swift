@@ -16,7 +16,7 @@ struct ResultView: View {
             VStack(spacing: 24) {
                 ResultItem(label: "WPM", value: "\(appState.wpm)")
                 ResultItem(label: "Accuracy", value: String(format: "%.1f%%", appState.accuracy))
-                ResultItem(label: "Time", value: formatTime(appState.elapsedTime))
+                ResultItem(label: "Time", value: appState.formattedTime)
                 ResultItem(label: "Characters", value: "\(appState.correctCount)/\(appState.targetText.count)")
             }
             .padding(32)
@@ -38,13 +38,6 @@ struct ResultView: View {
             .buttonStyle(.plain)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-    }
-
-    private func formatTime(_ time: TimeInterval) -> String {
-        let minutes = Int(time) / 60
-        let seconds = Int(time) % 60
-        let tenths = Int((time.truncatingRemainder(dividingBy: 1)) * 10)
-        return String(format: "%d:%02d.%d", minutes, seconds, tenths)
     }
 }
 
@@ -68,9 +61,7 @@ struct ResultItem: View {
 
 #Preview {
     let state = AppState()
-    state.startPractice(with: "Test")
-    state.correctCount = 120
-    state.incorrectCount = 5
+    state.startPractice(with: "Test text for preview")
     state.elapsedTime = 65.3
     return ResultView()
         .environmentObject(state)

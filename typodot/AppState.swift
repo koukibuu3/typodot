@@ -16,14 +16,10 @@ enum Screen {
 final class AppState: ObservableObject {
     @Published var currentScreen: Screen = .home
 
-    // Typing state
-    @Published var targetText: String = ""
-    @Published var currentIndex: Int = 0
-    @Published var inputHistory: [Bool] = [] // true = correct, false = incorrect
+    // Typing engine
+    @Published private(set) var engine: TypingEngine?
 
-    // Score state
-    @Published var correctCount: Int = 0
-    @Published var incorrectCount: Int = 0
+    // Timer state
     @Published var elapsedTime: TimeInterval = 0
     @Published var startTime: Date?
 
@@ -33,29 +29,41 @@ final class AppState: ObservableObject {
     // Key event handler
     private let keyEventHandler = KeyEventHandler()
 
+    // Computed properties for UI
+    var targetText: String {
+        engine?.targetText ?? ""
+    }
+
+    var currentIndex: Int {
+        engine?.currentIndex ?? 0
+    }
+
+    var correctCount: Int {
+        engine?.correctCount ?? 0
+    }
+
+    var incorrectCount: Int {
+        engine?.incorrectCount ?? 0
+    }
+
     var wpm: Int {
-        guard elapsedTime > 0 else { return 0 }
-        let minutes = elapsedTime / 60.0
-        let words = Double(correctCount) / 5.0
-        return Int(words / minutes)
+        Scoring.calculateWPM(correctCharacters: correctCount, elapsedTime: elapsedTime)
     }
 
     var accuracy: Double {
-        let total = correctCount + incorrectCount
-        guard total > 0 else { return 100.0 }
-        return (Double(correctCount) / Double(total)) * 100.0
+        Scoring.calculateAccuracy(correctCount: correctCount, incorrectCount: incorrectCount)
     }
 
     var isCompleted: Bool {
-        currentIndex >= targetText.count && !targetText.isEmpty
+        engine?.isCompleted ?? false
+    }
+
+    var formattedTime: String {
+        Scoring.formatTime(elapsedTime)
     }
 
     func startPractice(with text: String) {
-        targetText = text
-        currentIndex = 0
-        inputHistory = []
-        correctCount = 0
-        incorrectCount = 0
+        engine = TypingEngine(targetText: text)
         elapsedTime = 0
         startTime = nil
         currentScreen = .typing
@@ -75,35 +83,29 @@ final class AppState: ObservableObject {
     }
 
     func handleKeyInput(_ character: Character) {
+        guard engine != nil else { return }
+
         if startTime == nil {
             startTime = Date()
             startTimer()
         }
 
-        guard currentIndex < targetText.count else { return }
+        let wasCorrect = engine?.processInput(character) ?? false
 
-        let targetIndex = targetText.index(targetText.startIndex, offsetBy: currentIndex)
-        let targetChar = targetText[targetIndex]
+        // Force UI update by triggering objectWillChange
+        objectWillChange.send()
 
-        if character == targetChar {
-            correctCount += 1
-            inputHistory.append(true)
-            currentIndex += 1
-
-            if isCompleted {
-                stopTimer()
-                stopKeyCapture()
-                currentScreen = .result
-            }
-        } else {
-            incorrectCount += 1
-            inputHistory.append(false)
+        if isCompleted {
+            stopTimer()
+            stopKeyCapture()
+            currentScreen = .result
         }
     }
 
     func returnToHome() {
         stopTimer()
         stopKeyCapture()
+        engine = nil
         currentScreen = .home
     }
 
