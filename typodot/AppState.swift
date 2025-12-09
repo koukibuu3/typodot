@@ -4,6 +4,7 @@
 //
 
 import Foundation
+import AppKit
 
 enum Screen {
     case home
@@ -28,6 +29,9 @@ final class AppState: ObservableObject {
 
     // Timer
     private var timer: DispatchSourceTimer?
+
+    // Key event handler
+    private let keyEventHandler = KeyEventHandler()
 
     var wpm: Int {
         guard elapsedTime > 0 else { return 0 }
@@ -55,6 +59,19 @@ final class AppState: ObservableObject {
         elapsedTime = 0
         startTime = nil
         currentScreen = .typing
+        startKeyCapture()
+    }
+
+    private func startKeyCapture() {
+        keyEventHandler.start { [weak self] character in
+            Task { @MainActor in
+                self?.handleKeyInput(character)
+            }
+        }
+    }
+
+    private func stopKeyCapture() {
+        keyEventHandler.stop()
     }
 
     func handleKeyInput(_ character: Character) {
@@ -75,6 +92,7 @@ final class AppState: ObservableObject {
 
             if isCompleted {
                 stopTimer()
+                stopKeyCapture()
                 currentScreen = .result
             }
         } else {
@@ -85,6 +103,7 @@ final class AppState: ObservableObject {
 
     func returnToHome() {
         stopTimer()
+        stopKeyCapture()
         currentScreen = .home
     }
 
