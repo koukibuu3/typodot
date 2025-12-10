@@ -24,37 +24,13 @@ struct ResultView: View {
             .cornerRadius(12)
 
             HStack(spacing: 16) {
-                Button(action: {
+                OutlineButton(title: "Try Again", color: .orange) {
                     appState.startPractice(with: PracticeTexts.random())
-                }) {
-                    Text("Try Again")
-                        .font(.title3)
-                        .fontWeight(.medium)
-                        .foregroundColor(.orange)
-                        .padding(.horizontal, 32)
-                        .padding(.vertical, 16)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 8)
-                                .stroke(Color.orange, lineWidth: 1)
-                        )
                 }
-                .buttonStyle(.plain)
 
-                Button(action: {
+                OutlineButton(title: "Home", color: .secondary) {
                     appState.returnToHome()
-                }) {
-                    Text("Home")
-                        .font(.title3)
-                        .fontWeight(.medium)
-                        .foregroundColor(.secondary)
-                        .padding(.horizontal, 32)
-                        .padding(.vertical, 16)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 8)
-                                .stroke(Color.secondary.opacity(0.3), lineWidth: 1)
-                        )
                 }
-                .buttonStyle(.plain)
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
