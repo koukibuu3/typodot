@@ -60,7 +60,7 @@ struct StatsBar: View {
     @State private var isButtonHovered = false
 
     var body: some View {
-        ZStack(alignment: .topTrailing) {
+        HStack(spacing: 0) {
             // Stats content
             HStack(spacing: 40) {
                 StatItem(label: "WPM", value: "\(wpm)")
@@ -75,14 +75,14 @@ struct StatsBar: View {
                 Image(systemName: isHidden ? "eye" : "eye.slash")
                     .font(.system(size: 12))
                     .foregroundColor(.secondary)
-                    .padding(6)
+                    .frame(width: 24, height: 24)
             }
             .buttonStyle(.plain)
             .opacity(isHovered || isButtonHovered ? 1 : 0)
             .onHover { hovering in
                 isButtonHovered = hovering
             }
-            .padding(4)
+            .padding(.trailing, 8)
         }
         .background(Color(nsColor: .controlBackgroundColor))
         .cornerRadius(8)
