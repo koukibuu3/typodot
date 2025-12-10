@@ -130,7 +130,11 @@ final class AppState: ObservableObject {
         currentScreen = .home
     }
 
-    func showRanking() {
+    // Ranking state
+    @Published var initialRankingPeriod: RankingPeriod = .daily
+
+    func showRanking(period: RankingPeriod = .daily) {
+        initialRankingPeriod = period
         currentScreen = .ranking
     }
 

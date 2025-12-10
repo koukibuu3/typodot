@@ -77,6 +77,7 @@ struct RankingView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .padding()
         .onAppear {
+            selectedPeriod = appState.initialRankingPeriod
             loadRankings()
         }
     }

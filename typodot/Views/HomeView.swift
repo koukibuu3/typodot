@@ -9,21 +9,52 @@ struct HomeView: View {
     @EnvironmentObject var appState: AppState
 
     var body: some View {
-        VStack(spacing: 40) {
-            Text("typo.")
-                .font(.system(size: 48, weight: .bold, design: .monospaced))
+        ZStack(alignment: .bottomTrailing) {
+            // Main content
+            VStack(spacing: 40) {
+                Text("typo.")
+                    .font(.system(size: 48, weight: .bold, design: .monospaced))
 
-            VStack(spacing: 16) {
                 OutlineButton(title: "Start", color: .orange) {
                     appState.startPractice(with: PracticeTexts.random())
                 }
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
 
-                OutlineButton(title: "Ranking", color: .secondary) {
-                    appState.showRanking()
+            // Ranking links
+            VStack(alignment: .trailing, spacing: 8) {
+                RankingLink(title: "Daily Ranking") {
+                    appState.showRanking(period: .daily)
+                }
+                RankingLink(title: "Weekly Ranking") {
+                    appState.showRanking(period: .weekly)
                 }
             }
+            .padding(24)
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
+    }
+}
+
+struct RankingLink: View {
+    let title: String
+    let action: () -> Void
+
+    @State private var isHovered = false
+
+    var body: some View {
+        Button(action: action) {
+            HStack(spacing: 6) {
+                Image(systemName: "trophy")
+                    .font(.system(size: 12))
+                Text(title)
+                    .font(.subheadline)
+            }
+            .foregroundColor(isHovered ? .orange : .secondary)
+        }
+        .buttonStyle(.plain)
+        .onHover { hovering in
+            isHovered = hovering
+        }
     }
 }
 
