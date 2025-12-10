@@ -4,9 +4,12 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct ResultView: View {
     @EnvironmentObject var appState: AppState
+    @Environment(\.modelContext) private var modelContext
+    @State private var hasSaved = false
 
     var body: some View {
         VStack(spacing: 40) {
@@ -34,6 +37,22 @@ struct ResultView: View {
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .onAppear {
+            saveRecord()
+        }
+    }
+
+    private func saveRecord() {
+        guard !hasSaved else { return }
+        hasSaved = true
+
+        RecordStore.save(
+            wpm: appState.wpm,
+            accuracy: appState.accuracy,
+            elapsedTime: appState.elapsedTime,
+            characterCount: appState.targetText.count,
+            context: modelContext
+        )
     }
 }
 

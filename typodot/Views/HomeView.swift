@@ -13,8 +13,14 @@ struct HomeView: View {
             Text("typo.")
                 .font(.system(size: 48, weight: .bold, design: .monospaced))
 
-            OutlineButton(title: "Start", color: .orange) {
-                appState.startPractice(with: PracticeTexts.random())
+            VStack(spacing: 16) {
+                OutlineButton(title: "Start", color: .orange) {
+                    appState.startPractice(with: PracticeTexts.random())
+                }
+
+                OutlineButton(title: "Ranking", color: .secondary) {
+                    appState.showRanking()
+                }
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)

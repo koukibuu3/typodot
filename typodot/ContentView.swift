@@ -17,6 +17,8 @@ struct ContentView: View {
                 TypingView()
             case .result:
                 ResultView()
+            case .ranking:
+                RankingView()
             }
         }
         .frame(minWidth: 800, minHeight: 500)

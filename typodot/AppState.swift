@@ -11,6 +11,7 @@ enum Screen {
     case home
     case typing
     case result
+    case ranking
 }
 
 @MainActor
@@ -127,6 +128,10 @@ final class AppState: ObservableObject {
         stopKeyCapture()
         engine = nil
         currentScreen = .home
+    }
+
+    func showRanking() {
+        currentScreen = .ranking
     }
 
     private func startTimer() {
