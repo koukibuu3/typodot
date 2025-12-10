@@ -16,14 +16,17 @@ struct HomeView: View {
             Button(action: {
                 appState.startPractice(with: PracticeTexts.random())
             }) {
-                Text("Start Practice")
-                    .font(.title3)
-                    .fontWeight(.medium)
-                    .padding(.horizontal, 40)
-                    .padding(.vertical, 16)
-                    .background(Color.accentColor)
-                    .foregroundColor(.white)
-                    .cornerRadius(8)
+                Text("Start")
+                    .font(.body)
+                    .foregroundColor(.primary)
+                    .padding(.horizontal, 24)
+                    .padding(.vertical, 10)
+                    .background(Color(nsColor: .controlBackgroundColor))
+                    .cornerRadius(6)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 6)
+                            .stroke(Color.secondary.opacity(0.3), lineWidth: 1)
+                    )
             }
             .buttonStyle(.plain)
         }

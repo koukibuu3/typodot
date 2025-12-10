@@ -40,9 +40,9 @@ struct TypingView: View {
 
             // Escape hint
             Text("esc to quit")
-                .font(.caption)
+                .font(.subheadline)
                 .foregroundColor(.secondary.opacity(0.6))
-                .padding(12)
+                .padding(16)
         }
         .padding()
     }

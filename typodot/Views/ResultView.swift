@@ -23,18 +23,21 @@ struct ResultView: View {
             .background(Color(nsColor: .controlBackgroundColor))
             .cornerRadius(12)
 
-            HStack(spacing: 16) {
+            HStack(spacing: 12) {
                 Button(action: {
                     appState.startPractice(with: PracticeTexts.random())
                 }) {
                     Text("Try Again")
-                        .font(.title3)
-                        .fontWeight(.medium)
-                        .padding(.horizontal, 32)
-                        .padding(.vertical, 16)
-                        .background(Color.accentColor)
-                        .foregroundColor(.white)
-                        .cornerRadius(8)
+                        .font(.body)
+                        .foregroundColor(.primary)
+                        .padding(.horizontal, 20)
+                        .padding(.vertical, 10)
+                        .background(Color(nsColor: .controlBackgroundColor))
+                        .cornerRadius(6)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 6)
+                                .stroke(Color.secondary.opacity(0.3), lineWidth: 1)
+                        )
                 }
                 .buttonStyle(.plain)
 
@@ -42,17 +45,10 @@ struct ResultView: View {
                     appState.returnToHome()
                 }) {
                     Text("Home")
-                        .font(.title3)
-                        .fontWeight(.medium)
-                        .padding(.horizontal, 32)
-                        .padding(.vertical, 16)
-                        .background(Color(nsColor: .controlBackgroundColor))
-                        .foregroundColor(.primary)
-                        .cornerRadius(8)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 8)
-                                .stroke(Color.secondary.opacity(0.3), lineWidth: 1)
-                        )
+                        .font(.body)
+                        .foregroundColor(.secondary)
+                        .padding(.horizontal, 20)
+                        .padding(.vertical, 10)
                 }
                 .buttonStyle(.plain)
             }
