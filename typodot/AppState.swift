@@ -75,11 +75,18 @@ final class AppState: ObservableObject {
     }
 
     private func startKeyCapture() {
-        keyEventHandler.start { [weak self] character in
-            Task { @MainActor in
-                self?.handleKeyInput(character)
+        keyEventHandler.start(
+            onKeyDown: { [weak self] character in
+                Task { @MainActor in
+                    self?.handleKeyInput(character)
+                }
+            },
+            onEscape: { [weak self] in
+                Task { @MainActor in
+                    self?.returnToHome()
+                }
             }
-        }
+        )
     }
 
     private func stopKeyCapture() {

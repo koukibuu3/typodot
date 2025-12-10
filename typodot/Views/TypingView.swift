@@ -9,32 +9,41 @@ struct TypingView: View {
     @EnvironmentObject var appState: AppState
 
     var body: some View {
-        VStack(spacing: 32) {
-            // Stats bar
-            HStack(spacing: 40) {
-                StatItem(label: "WPM", value: "\(appState.wpm)")
-                StatItem(label: "Accuracy", value: String(format: "%.1f%%", appState.accuracy))
-                StatItem(label: "Time", value: appState.formattedTime)
+        ZStack(alignment: .topLeading) {
+            // Main content
+            VStack(spacing: 32) {
+                // Stats bar
+                HStack(spacing: 40) {
+                    StatItem(label: "WPM", value: "\(appState.wpm)")
+                    StatItem(label: "Accuracy", value: String(format: "%.1f%%", appState.accuracy))
+                    StatItem(label: "Time", value: appState.formattedTime)
+                }
+                .padding()
+                .background(Color(nsColor: .controlBackgroundColor))
+                .cornerRadius(8)
+
+                // Target text display
+                TypingTextView(
+                    targetText: appState.targetText,
+                    currentIndex: appState.currentIndex,
+                    showError: appState.showErrorFeedback
+                )
+                .frame(maxWidth: 800)
+                .padding()
+
+                // Instructions
+                Text("Start typing to begin")
+                    .foregroundColor(.secondary)
+                    .opacity(appState.startTime == nil ? 1 : 0)
             }
-            .padding()
-            .background(Color(nsColor: .controlBackgroundColor))
-            .cornerRadius(8)
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
 
-            // Target text display
-            TypingTextView(
-                targetText: appState.targetText,
-                currentIndex: appState.currentIndex,
-                showError: appState.showErrorFeedback
-            )
-            .frame(maxWidth: 800)
-            .padding()
-
-            // Instructions
-            Text("Start typing to begin")
-                .foregroundColor(.secondary)
-                .opacity(appState.startTime == nil ? 1 : 0)
+            // Escape hint
+            Text("esc to quit")
+                .font(.caption)
+                .foregroundColor(.secondary.opacity(0.6))
+                .padding(12)
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
         .padding()
     }
 }

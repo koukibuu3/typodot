@@ -11,11 +11,15 @@ import Combine
 final class KeyEventHandler {
     private var monitor: Any?
     private var onKeyDown: ((Character) -> Void)?
+    private var onEscape: (() -> Void)?
 
     /// Start monitoring key events
-    /// - Parameter handler: Closure called when a key is pressed
-    func start(onKeyDown handler: @escaping (Character) -> Void) {
+    /// - Parameters:
+    ///   - handler: Closure called when a key is pressed
+    ///   - onEscape: Closure called when Escape key is pressed
+    func start(onKeyDown handler: @escaping (Character) -> Void, onEscape escapeHandler: (() -> Void)? = nil) {
         self.onKeyDown = handler
+        self.onEscape = escapeHandler
 
         monitor = NSEvent.addLocalMonitorForEvents(matching: .keyDown) { [weak self] event in
             self?.handleKeyEvent(event)
@@ -30,9 +34,16 @@ final class KeyEventHandler {
             self.monitor = nil
         }
         onKeyDown = nil
+        onEscape = nil
     }
 
     private func handleKeyEvent(_ event: NSEvent) {
+        // Handle Escape key
+        if event.keyCode == 53 {
+            onEscape?()
+            return
+        }
+
         // Ignore modifier-only key presses
         guard !event.modifierFlags.contains(.command),
               !event.modifierFlags.contains(.control),
