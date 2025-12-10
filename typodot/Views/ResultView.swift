@@ -29,15 +29,9 @@ struct ResultView: View {
                 }) {
                     Text("Try Again")
                         .font(.body)
-                        .foregroundColor(.primary)
+                        .foregroundColor(.orange)
                         .padding(.horizontal, 20)
                         .padding(.vertical, 10)
-                        .background(Color(nsColor: .controlBackgroundColor))
-                        .cornerRadius(6)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 6)
-                                .stroke(Color.secondary.opacity(0.3), lineWidth: 1)
-                        )
                 }
                 .buttonStyle(.plain)
 

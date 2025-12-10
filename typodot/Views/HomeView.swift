@@ -18,15 +18,9 @@ struct HomeView: View {
             }) {
                 Text("Start")
                     .font(.body)
-                    .foregroundColor(.primary)
+                    .foregroundColor(.orange)
                     .padding(.horizontal, 24)
                     .padding(.vertical, 10)
-                    .background(Color(nsColor: .controlBackgroundColor))
-                    .cornerRadius(6)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 6)
-                            .stroke(Color.secondary.opacity(0.3), lineWidth: 1)
-                    )
             }
             .buttonStyle(.plain)
         }
