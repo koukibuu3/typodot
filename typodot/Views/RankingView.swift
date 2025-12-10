@@ -9,27 +9,21 @@ import SwiftData
 struct RankingView: View {
     @EnvironmentObject var appState: AppState
     @Environment(\.modelContext) private var modelContext
-    @State private var selectedPeriod: RankingPeriod = .daily
     @State private var rankings: [PracticeRecord] = []
+
+    private var title: String {
+        switch appState.initialRankingPeriod {
+        case .daily:
+            return "Daily Ranking"
+        case .weekly:
+            return "Weekly Ranking"
+        }
+    }
 
     var body: some View {
         VStack(spacing: 32) {
-            Text("Ranking")
+            Text(title)
                 .font(.system(size: 36, weight: .bold, design: .monospaced))
-
-            // Period selector
-            HStack(spacing: 0) {
-                PeriodTab(title: "Daily", isSelected: selectedPeriod == .daily) {
-                    selectedPeriod = .daily
-                    loadRankings()
-                }
-                PeriodTab(title: "Weekly", isSelected: selectedPeriod == .weekly) {
-                    selectedPeriod = .weekly
-                    loadRankings()
-                }
-            }
-            .background(Color(nsColor: .controlBackgroundColor))
-            .cornerRadius(8)
 
             // Ranking list
             VStack(spacing: 0) {
@@ -77,37 +71,12 @@ struct RankingView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .padding()
         .onAppear {
-            selectedPeriod = appState.initialRankingPeriod
             loadRankings()
         }
     }
 
     private func loadRankings() {
-        rankings = RecordStore.fetchRanking(period: selectedPeriod, context: modelContext)
-    }
-}
-
-struct PeriodTab: View {
-    let title: String
-    let isSelected: Bool
-    let action: () -> Void
-
-    @State private var isHovered = false
-
-    var body: some View {
-        Button(action: action) {
-            Text(title)
-                .font(.body)
-                .fontWeight(isSelected ? .semibold : .regular)
-                .foregroundColor(isSelected ? .orange : .secondary)
-                .padding(.horizontal, 24)
-                .padding(.vertical, 12)
-                .background(isHovered && !isSelected ? Color.secondary.opacity(0.1) : Color.clear)
-        }
-        .buttonStyle(.plain)
-        .onHover { hovering in
-            isHovered = hovering
-        }
+        rankings = RecordStore.fetchRanking(period: appState.initialRankingPeriod, context: modelContext)
     }
 }
 
