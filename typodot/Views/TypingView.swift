@@ -7,20 +7,22 @@ import SwiftUI
 
 struct TypingView: View {
     @EnvironmentObject var appState: AppState
+    @State private var isStatsHidden = false
+    @State private var isStatsHovered = false
 
     var body: some View {
         ZStack(alignment: .topLeading) {
             // Main content
             VStack(spacing: 32) {
                 // Stats bar
-                HStack(spacing: 40) {
-                    StatItem(label: "WPM", value: "\(appState.wpm)")
-                    StatItem(label: "Accuracy", value: String(format: "%.1f%%", appState.accuracy))
-                    StatItem(label: "Time", value: appState.formattedTime)
-                }
-                .padding()
-                .background(Color(nsColor: .controlBackgroundColor))
-                .cornerRadius(8)
+                StatsBar(
+                    wpm: appState.wpm,
+                    accuracy: appState.accuracy,
+                    time: appState.formattedTime,
+                    isHidden: isStatsHidden,
+                    isHovered: $isStatsHovered,
+                    onToggle: { isStatsHidden.toggle() }
+                )
 
                 // Target text display
                 TypingTextView(
@@ -44,6 +46,49 @@ struct TypingView: View {
                 .padding(16)
         }
         .padding()
+    }
+}
+
+struct StatsBar: View {
+    let wpm: Int
+    let accuracy: Double
+    let time: String
+    let isHidden: Bool
+    @Binding var isHovered: Bool
+    let onToggle: () -> Void
+
+    @State private var isButtonHovered = false
+
+    var body: some View {
+        ZStack(alignment: .topTrailing) {
+            // Stats content
+            HStack(spacing: 40) {
+                StatItem(label: "WPM", value: "\(wpm)")
+                StatItem(label: "Accuracy", value: String(format: "%.1f%%", accuracy))
+                StatItem(label: "Time", value: time)
+            }
+            .padding()
+            .opacity(isHidden ? 0 : 1)
+
+            // Toggle button (visible on hover)
+            Button(action: onToggle) {
+                Image(systemName: isHidden ? "eye" : "eye.slash")
+                    .font(.system(size: 12))
+                    .foregroundColor(.secondary)
+                    .padding(6)
+            }
+            .buttonStyle(.plain)
+            .opacity(isHovered || isButtonHovered ? 1 : 0)
+            .onHover { hovering in
+                isButtonHovered = hovering
+            }
+            .padding(4)
+        }
+        .background(Color(nsColor: .controlBackgroundColor))
+        .cornerRadius(8)
+        .onHover { hovering in
+            isHovered = hovering
+        }
     }
 }
 
