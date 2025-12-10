@@ -85,6 +85,7 @@ struct StatsBar: View {
             }
             .padding(4)
         }
+        .frame(width: 420)
         .background(Color(nsColor: .controlBackgroundColor))
         .cornerRadius(8)
         .onHover { hovering in
