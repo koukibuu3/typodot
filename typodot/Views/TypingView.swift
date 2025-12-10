@@ -60,7 +60,7 @@ struct StatsBar: View {
     @State private var isButtonHovered = false
 
     var body: some View {
-        HStack(spacing: 0) {
+        ZStack(alignment: .topTrailing) {
             // Stats content
             HStack(spacing: 40) {
                 StatItem(label: "WPM", value: "\(wpm)")
@@ -68,6 +68,7 @@ struct StatsBar: View {
                 StatItem(label: "Time", value: time)
             }
             .padding()
+            .padding(.trailing, 20)
             .opacity(isHidden ? 0 : 1)
 
             // Toggle button (visible on hover)
@@ -75,14 +76,14 @@ struct StatsBar: View {
                 Image(systemName: isHidden ? "eye" : "eye.slash")
                     .font(.system(size: 12))
                     .foregroundColor(.secondary)
-                    .frame(width: 24, height: 24)
+                    .padding(6)
             }
             .buttonStyle(.plain)
             .opacity(isHovered || isButtonHovered ? 1 : 0)
             .onHover { hovering in
                 isButtonHovered = hovering
             }
-            .padding(.trailing, 8)
+            .padding(4)
         }
         .background(Color(nsColor: .controlBackgroundColor))
         .cornerRadius(8)
