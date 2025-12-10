@@ -43,11 +43,11 @@ struct RankingLink: View {
 
     var body: some View {
         Button(action: action) {
-            HStack(spacing: 6) {
+            HStack(spacing: 8) {
                 Image(systemName: "trophy")
-                    .font(.system(size: 12))
+                    .font(.system(size: 14))
                 Text(title)
-                    .font(.subheadline)
+                    .font(.body)
             }
             .foregroundColor(isHovered ? .orange : .secondary)
         }
