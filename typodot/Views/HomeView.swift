@@ -17,10 +17,15 @@ struct HomeView: View {
                 appState.startPractice(with: PracticeTexts.random())
             }) {
                 Text("Start")
-                    .font(.body)
+                    .font(.title3)
+                    .fontWeight(.medium)
                     .foregroundColor(.orange)
-                    .padding(.horizontal, 24)
-                    .padding(.vertical, 10)
+                    .padding(.horizontal, 40)
+                    .padding(.vertical, 16)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 8)
+                            .stroke(Color.orange, lineWidth: 1)
+                    )
             }
             .buttonStyle(.plain)
         }

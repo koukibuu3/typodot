@@ -23,15 +23,20 @@ struct ResultView: View {
             .background(Color(nsColor: .controlBackgroundColor))
             .cornerRadius(12)
 
-            HStack(spacing: 12) {
+            HStack(spacing: 16) {
                 Button(action: {
                     appState.startPractice(with: PracticeTexts.random())
                 }) {
                     Text("Try Again")
-                        .font(.body)
+                        .font(.title3)
+                        .fontWeight(.medium)
                         .foregroundColor(.orange)
-                        .padding(.horizontal, 20)
-                        .padding(.vertical, 10)
+                        .padding(.horizontal, 32)
+                        .padding(.vertical, 16)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 8)
+                                .stroke(Color.orange, lineWidth: 1)
+                        )
                 }
                 .buttonStyle(.plain)
 
@@ -39,10 +44,15 @@ struct ResultView: View {
                     appState.returnToHome()
                 }) {
                     Text("Home")
-                        .font(.body)
+                        .font(.title3)
+                        .fontWeight(.medium)
                         .foregroundColor(.secondary)
-                        .padding(.horizontal, 20)
-                        .padding(.vertical, 10)
+                        .padding(.horizontal, 32)
+                        .padding(.vertical, 16)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 8)
+                                .stroke(Color.secondary.opacity(0.3), lineWidth: 1)
+                        )
                 }
                 .buttonStyle(.plain)
             }
