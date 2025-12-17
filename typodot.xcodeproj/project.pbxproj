@@ -11,7 +11,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		A40B24672EE8698C00C65E3F /* typodot.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = typodot.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A40B24672EE8698C00C65E3F /* typo..app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = typo..app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A40B24772EE86BEE00C65E3F /* Architecture.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Architecture.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -46,7 +46,7 @@
 		A40B24682EE8698C00C65E3F /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				A40B24672EE8698C00C65E3F /* typodot.app */,
+				A40B24672EE8698C00C65E3F /* typo..app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -54,9 +54,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		A40B24662EE8698C00C65E3F /* typodot */ = {
+		A40B24662EE8698C00C65E3F /* typo. */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = A40B24742EE8698D00C65E3F /* Build configuration list for PBXNativeTarget "typodot" */;
+			buildConfigurationList = A40B24742EE8698D00C65E3F /* Build configuration list for PBXNativeTarget "typo." */;
 			buildPhases = (
 				A40B24632EE8698C00C65E3F /* Sources */,
 				A40B24642EE8698C00C65E3F /* Frameworks */,
@@ -69,11 +69,11 @@
 			fileSystemSynchronizedGroups = (
 				A40B24692EE8698C00C65E3F /* typodot */,
 			);
-			name = typodot;
+			name = typo.;
 			packageProductDependencies = (
 			);
 			productName = typodot;
-			productReference = A40B24672EE8698C00C65E3F /* typodot.app */;
+			productReference = A40B24672EE8698C00C65E3F /* typo..app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -105,7 +105,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				A40B24662EE8698C00C65E3F /* typodot */,
+				A40B24662EE8698C00C65E3F /* typo. */,
 			);
 		};
 /* End PBXProject section */
@@ -328,7 +328,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		A40B24742EE8698D00C65E3F /* Build configuration list for PBXNativeTarget "typodot" */ = {
+		A40B24742EE8698D00C65E3F /* Build configuration list for PBXNativeTarget "typo." */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				A40B24752EE8698D00C65E3F /* Debug */,
