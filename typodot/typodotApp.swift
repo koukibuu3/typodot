@@ -9,6 +9,7 @@ import SwiftData
 @main
 struct typodotApp: App {
     @StateObject private var appState = AppState()
+    @Environment(\.openWindow) private var openWindow
 
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
@@ -31,5 +32,22 @@ struct typodotApp: App {
         .modelContainer(sharedModelContainer)
         .windowStyle(.hiddenTitleBar)
         .defaultSize(width: 900, height: 600)
+
+        MenuBarExtra {
+            Button("typo. を開く") {
+                NSApplication.shared.activate(ignoringOtherApps: true)
+                if NSApplication.shared.windows.filter({ $0.isVisible }).isEmpty {
+                    NSApplication.shared.windows.first?.makeKeyAndOrderFront(nil)
+                }
+            }
+            .keyboardShortcut("o")
+            Divider()
+            Button("終了") {
+                NSApplication.shared.terminate(nil)
+            }
+            .keyboardShortcut("q")
+        } label: {
+            Image("MenuBarIcon")
+        }
     }
 }
