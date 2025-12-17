@@ -23,7 +23,24 @@ func createIcon(size: Int) -> NSImage {
     let padding = (canvas - icon) / 2
 
     let image = NSImage(size: NSSize(width: canvas, height: canvas))
-    image.lockFocus()
+
+    let rep = NSBitmapImageRep(
+        bitmapDataPlanes: nil,
+        pixelsWide: size,
+        pixelsHigh: size,
+        bitsPerSample: 8,
+        samplesPerPixel: 4,
+        hasAlpha: true,
+        isPlanar: false,
+        colorSpaceName: .deviceRGB,
+        bytesPerRow: 0,
+        bitsPerPixel: 0
+    )!
+
+    image.addRepresentation(rep)
+
+    NSGraphicsContext.saveGraphicsState()
+    NSGraphicsContext.current = NSGraphicsContext(bitmapImageRep: rep)
 
     // 背景を透明に
     NSColor.clear.setFill()
@@ -42,14 +59,13 @@ func createIcon(size: Int) -> NSImage {
     let logoRect = NSRect(x: logoOffset, y: logoOffset, width: logoSize, height: logoSize)
     inputImage.draw(in: logoRect)
 
-    image.unlockFocus()
+    NSGraphicsContext.restoreGraphicsState()
     return image
 }
 
 func saveIcon(image: NSImage, size: Int, filename: String) {
-    guard let tiffData = image.tiffRepresentation,
-          let bitmap = NSBitmapImageRep(data: tiffData),
-          let pngData = bitmap.representation(using: .png, properties: [:]) else {
+    guard let rep = image.representations.first as? NSBitmapImageRep,
+          let pngData = rep.representation(using: .png, properties: [:]) else {
         print("Error: Could not create PNG data")
         return
     }
@@ -57,7 +73,7 @@ func saveIcon(image: NSImage, size: Int, filename: String) {
     let outputPath = "\(outputDir)/\(filename)"
     do {
         try pngData.write(to: URL(fileURLWithPath: outputPath))
-        print("Created: \(outputPath)")
+        print("Created: \(outputPath) (\(size)x\(size))")
     } catch {
         print("Error writing \(outputPath): \(error)")
     }
