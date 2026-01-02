@@ -8,8 +8,12 @@ import SwiftUI
 struct HomeView: View {
     @EnvironmentObject var appState: AppState
 
+    private var appVersion: String {
+        Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0"
+    }
+
     var body: some View {
-        ZStack(alignment: .bottomTrailing) {
+        ZStack {
             // Main content
             VStack(spacing: 40) {
                 Text("typo.")
@@ -21,16 +25,30 @@ struct HomeView: View {
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
 
-            // Ranking links
-            VStack(alignment: .trailing, spacing: 8) {
-                RankingLink(title: "Daily Ranking") {
-                    appState.showRanking(period: .daily)
-                }
-                RankingLink(title: "Weekly Ranking") {
-                    appState.showRanking(period: .weekly)
+            // Bottom overlay
+            VStack {
+                Spacer()
+                HStack {
+                    // Version info (bottom left)
+                    Text("v\(appVersion)")
+                        .font(.system(size: 11, design: .monospaced))
+                        .foregroundColor(.secondary.opacity(0.6))
+                        .padding(24)
+
+                    Spacer()
+
+                    // Ranking links (bottom right)
+                    VStack(alignment: .trailing, spacing: 8) {
+                        RankingLink(title: "Daily Ranking") {
+                            appState.showRanking(period: .daily)
+                        }
+                        RankingLink(title: "Weekly Ranking") {
+                            appState.showRanking(period: .weekly)
+                        }
+                    }
+                    .padding(24)
                 }
             }
-            .padding(24)
         }
     }
 }
